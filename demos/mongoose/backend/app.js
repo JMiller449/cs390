@@ -20,13 +20,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(cors());
 
 app.use("/", indexRouter);
-app.use(
-  "/blog",
-  (req, res, next) => {
-    //
-    // check for password soon
-    // maybe on wed
-
+app.use("/blog", (req, res, next) => {
     next();
   },
   blogRouter

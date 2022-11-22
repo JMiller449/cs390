@@ -13,15 +13,34 @@ router.get("/", async (req, res, next) => {
 });
 
 router.post("/create-post", async (req, res) => {
-  // body should be JSON
-  const body = req.body;
-  // create blog model with the request body
-  const blog = new BlogModel({content: body.content, title: body.title});
-  // remember to await .save();
-  // save to mongodb
-  await blog.save();
-  // get an object representation and send it back to the client
-  return res.send(blog.toObject());
+  try {
+    console.log(req.body);
+    // body should be JSON
+    const body = req.body;
+    // create blog model with the request body
+    const blog = new BlogModel({content: body.content, title: body.title});
+    // remember to await .save();
+    // save to mongodb
+    await blog.save();
+    // get an object representation and send it back to the client
+    return res.send(blog.toObject());
+  } catch (e) {
+    console.log(e);
+  }
+});
+
+router.delete("/delete-post", async (req, res) => {
+  try {
+    console.log(req.body);
+    //body should be JSON
+    const body = req.body;
+    // remove from mongodb
+    const query = {content: body.content, title: body.title};
+    await BlogModel.deleteOne(query);
+    await BlogModel.save();
+  } catch (e) {
+    console.log(e);
+  }
 });
 
 export default router;

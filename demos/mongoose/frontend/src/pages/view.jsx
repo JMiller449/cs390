@@ -11,6 +11,22 @@ export function View() {
       setPosts(json);
     })();
   }, []);
+
+  console.log(posts);
+
+  async function deletePost(title, content) {
+    const requestData = JSON.stringify({title, content});
+    const headers = {
+      "Accept":"application/json",
+      "Content-Type": "application/json"
+    };
+    const resp = await fetch("http://localhost:3000/blog/delete-post", {
+      method: "delete",
+      body: requestData,
+      headers: headers
+    });
+  }
+
   return (
     <div>
       <Link to="/"> Home</Link>
@@ -26,6 +42,7 @@ export function View() {
           >
             <h2 style={{margin: "0.2rem"}}>{post.title}</h2>
             <div>{post.content}</div>
+            <button onClick={() => deletePost(post.title, post.content)}>Delete</button>
           </div>
         ))}
       </div>
